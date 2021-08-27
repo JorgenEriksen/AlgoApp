@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>CodeBattle_API</RootNamespace>
+    <UserSecretsId>3185f440-57ed-4fab-93b1-e74575a88455</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

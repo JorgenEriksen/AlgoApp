@@ -10,10 +10,6 @@ namespace CodeBattle_API.Controllers
     [ApiController]
     public class QuizController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
 
         [HttpGet("{id}")]
         public IActionResult GetQuizById()
