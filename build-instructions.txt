@@ -1,0 +1,8 @@
+To run the full program for development:
+
+1. open the project (in vs studio) and start the API (C#)
+
+2. Type just "yarn" to install packages.
+3. Enter "yarn start" to start the admin panel
+
+Then you should have admin panel on localhost, and swagger UI available for calls.
