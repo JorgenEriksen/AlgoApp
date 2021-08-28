@@ -1,7 +1,9 @@
+using CodeBattle_API.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -16,9 +18,12 @@ namespace CodeBattle_API
 {
     public class Startup
     {
+        public string ConnectionString { get; set; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            ConnectionString = Configuration.GetConnectionString("DefaultConnectionString");
         }
 
         public IConfiguration Configuration { get; }
@@ -28,6 +33,8 @@ namespace CodeBattle_API
         {
 
             services.AddControllers();
+            services.AddDbContext<CodeBattleContext>(opt => opt.UseSqlServer(ConnectionString));
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CodeBattle_API", Version = "v1" });
@@ -54,6 +61,8 @@ namespace CodeBattle_API
             {
                 endpoints.MapControllers();
             });
+
+            DbInitializer.Seed(app);
         }
     }
 }
