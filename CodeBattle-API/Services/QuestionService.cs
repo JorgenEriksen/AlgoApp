@@ -9,22 +9,31 @@ namespace CodeBattle_API.Services
 {
     public class QuestionService
     {
+        private CodeBattleContext _context;
 
-
-        public void AddQuestion(AddQuestionVM AddQuestionVM)
+        public void AddQuestion(AddQuestionVM newQuestion)
         {
-            var _newQuestion = new Question();
-            /*
-            Title = "What is val?",
-            ProgrammingLanguage = 1
-            Time = 120,
-            Code = "val = 4",
-            Answer = "4",
-            AnswerExplanation = "val gets set to 4 in first line",
-            AnswerAlternative1 = "1",
-            AnswerAlternative2 = "3",
-            AnswerAlternative3 = "5"
-            */
+            var programmingLanguage = _context.ProgrammingLanguage.FirstOrDefault(pl => pl.Id == newQuestion.ProgrammingLanguageId);
+
+            // if not found?
+            if(programmingLanguage != null)
+            {
+                var _newQuestion = new Question()
+                {
+                    Title = newQuestion.Title,
+                    ProgrammingLanguageId = programmingLanguage,
+                    Time = newQuestion.Time,
+                    Code = newQuestion.Code,
+                    Answer = newQuestion.Answer,
+                    AnswerExplanation = newQuestion.AnswerExplanation,
+                    AnswerAlternative1 = newQuestion.AnswerAlternative1,
+                    AnswerAlternative2 = newQuestion.AnswerAlternative2,
+                    AnswerAlternative3 = newQuestion.AnswerAlternative3,
+                };
+                _context.Question.Add(_newQuestion);
+                _context.SaveChanges();
+            }
+
         }
 
     }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CodeBattle_API.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,13 @@ namespace CodeBattle_API.Controllers
     {
 
         [HttpGet("{id}")]
-        public IActionResult GetQuizById()
+        public IActionResult GetQuizById(int id)
+        {
+            return Ok();
+        }
+
+        [HttpPost]
+        public IActionResult AddQuiz(AddQuestionVM addQuestionVM)
         {
             return Ok();
         }

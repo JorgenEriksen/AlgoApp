@@ -1,4 +1,5 @@
 using CodeBattle_API.Models;
+using CodeBattle_API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -32,8 +33,24 @@ namespace CodeBattle_API
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            
             services.AddDbContext<CodeBattleContext>(opt => opt.UseSqlServer(ConnectionString));
+
+            // CORS
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    builder =>
+                    {
+                        builder
+                            .AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
+                    });
+            });
+            services.AddControllers();
+
+            services.AddTransient<ProgrammingLanguageService>();
 
             services.AddSwaggerGen(c =>
             {
@@ -54,6 +71,8 @@ namespace CodeBattle_API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors();
 
             app.UseAuthorization();
 
