@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import QuestionPanel from './containers/QuestionPanel';
+import NewQuestion from './containers/NewQuestion';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <QuestionPanel />
+    <NewQuestion />
   </React.StrictMode>,
   document.getElementById('root')
 );
