@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
+import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core';
 import { ProgrammingLanguage } from "../../types";
 
 const useStyles = makeStyles((theme) => ({
-    newQuestionFormContainer: {
-        display: 'flex',
-        flexDirection: 'column',
-    }
+  newQuestionFormContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+  }
 }));
 
 const QuestionPanel = () => {
@@ -17,6 +18,15 @@ const QuestionPanel = () => {
   >([]);
   const [programmingLanguageInput, setProgrammingLanguageInput] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
+
+  const [titleInput, setTitleInput] = useState("");
+  const [codeInput, setcodeInput] = useState("");
+  const [trueAnswerInput, setTrueAnswerInput] = useState("");
+  const [altOneInput, setaltOneInput] = useState("");
+  const [altTwoInput, setaltTwoInput] = useState("");
+  const [altThreeInput, setaltThreeInput] = useState("");
+  const [timeInput, setTimeInput] = useState("10");
+
   const classes = useStyles();
 
   // runs once when component is loaded
@@ -44,13 +54,18 @@ const QuestionPanel = () => {
     getProgrammingLanguages();
   }, []);
 
+  // functions
+  const submitQuestion = () => {
+    console.log("Running from submitQuestion() call");
+  }
+
   return (
     <div >
       <div className={classes.newQuestionFormContainer}>
         <h2>Admin Panel</h2>
 
         <div>
-            <TextField
+          <TextField
             id="outlined-select-currency"
             select
             label="Programming Language"
@@ -58,23 +73,76 @@ const QuestionPanel = () => {
             onChange={(e) => setProgrammingLanguageInput(e.target.value)}
             helperText="Please select your currency"
             variant="outlined"
-            >
+          >
             {allProgrammingLanguages.map((item) => (
-                <MenuItem key={item.language} value={item.id}>
+              <MenuItem key={item.language} value={item.id}>
                 {item.language}
-                </MenuItem>
+              </MenuItem>
             ))}
-            </TextField>
+          </TextField>
         </div>
-
         <div>
-            <TextField
+          <TextField
+            label="Question Title"
+            placeholder="Enter the question"
+            onChange={(e) => setTitleInput(e.target.value)}
+          />
+        </div>
+        <div>
+          <TextField
             placeholder="code here"
             multiline
-            onChange={(e) => console.log(e.target.value)}
+            onChange={(e) => setcodeInput(e.target.value)}
             minRows={20}
             maxRows={40}
-            />
+          />
+        </div>
+        <div>
+          <TextField
+            label="True answer"
+            placeholder="type answer here"
+            onChange={(e) => setTrueAnswerInput(e.target.value)}
+          />
+        </div>
+        <div>
+          <TextField
+            label="Answer alternative 1"
+            placeholder="type answer here"
+            onChange={(e) => setaltOneInput(e.target.value)}
+          />
+        </div>
+        <div>
+          <TextField
+            label="Answer alternative 2"
+            placeholder="type answer here"
+            onChange={(e) => setaltTwoInput(e.target.value)}
+          />
+        </div>
+        <div>
+          <TextField
+            label="Answer alternative 3"
+            placeholder="type answer here"
+            onChange={(e) => setaltThreeInput(e.target.value)}
+          />
+        </div>
+        <div>
+          <TextField
+            label="Time to answer"
+            type="number"
+            inputProps={{ min: 10, max: 180, step: "10" }} // these parameters might need to be discussed at a later stage, works for now.
+            // error check here for negative values and values not in a "10" step.
+            placeholder="Time in seconds"
+            onChange={(e) => setTimeInput(e.target.value)}
+          />
+        </div>
+        <div>
+          <Button
+            color="default"
+            size="large"
+            variant="contained"
+            onClick={() => submitQuestion()}>
+            Submit
+          </Button>
         </div>
       </div>
     </div>
