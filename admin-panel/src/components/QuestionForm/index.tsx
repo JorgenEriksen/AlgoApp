@@ -2,7 +2,11 @@ import { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormLabel from '@material-ui/core/FormLabel';
+import { FormControl, makeStyles } from '@material-ui/core';
 import { ProgrammingLanguage } from "../../types";
 
 const useStyles = makeStyles((theme) => ({
@@ -26,6 +30,7 @@ const QuestionPanel = () => {
   const [altTwoInput, setaltTwoInput] = useState("");
   const [altThreeInput, setaltThreeInput] = useState("");
   const [timeInput, setTimeInput] = useState("10");
+  const [numAlternatives, setNumAlternatives] = useState("3");
 
   const classes = useStyles();
 
@@ -48,16 +53,68 @@ const QuestionPanel = () => {
 
       //let response = await fetch('https://localhost:44377/api/Quiz/1')
       //response = await response.json();
-      console.log(JSON.stringify(response));
     };
 
     getProgrammingLanguages();
   }, []);
 
   // functions
+
+
+
   const submitQuestion = () => {
-    console.log("Running from submitQuestion() call");
+    if (!isFormValid()) {
+      alert("Not valid")
+      return
+    }
+
+    /*   const response = await fetch("https://localhost:5001/api/ProgrammingLanguage", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            formTitle: titleInput,
+            formInput: codeInput,
+            trueAnswer: trueAnswerInput,
+            alternative1: altOneInput,
+            alternative2: altTwoInput,
+            alternative3: altThreeInput,
+            formTimeInput: timeInput,
+          }) */
+
+
+    alert("Is valid")
   }
+
+  const isFormValid = () => {
+    if (titleInput.length < 1) {
+      return false
+    }
+    if (codeInput.length < 1) {
+      return false
+    }
+    if (trueAnswerInput.length < 1) {
+      return false
+    }
+
+    if (parseInt(numAlternatives) > 0 && altOneInput.length < 1) {
+      return false
+    }
+    if (parseInt(numAlternatives) > 1 && altTwoInput.length < 1) {
+      return false
+    }
+    if (parseInt(numAlternatives) > 2 && altThreeInput.length < 1) {
+      return false
+    }
+
+    if (timeInput.toString().slice(-1) !== '0' || parseInt(timeInput) < 0) {
+      return false
+    }
+    return true
+  }
+
 
   return (
     <div >
@@ -98,6 +155,20 @@ const QuestionPanel = () => {
           />
         </div>
         <div>
+          <FormControl component="fieldset">
+            <FormLabel component="legend">Amount of alternatives</FormLabel>
+            <RadioGroup aria-label="Amount of alternatives" name="alternatives" value={numAlternatives}
+              onChange={(e) => {
+                setNumAlternatives(e.target.value)
+              }}>
+              <FormControlLabel value="0" control={<Radio color="primary" />} label="0 (take user input)" />
+              <FormControlLabel value="1" control={<Radio color="primary" />} label="1" />
+              <FormControlLabel value="2" control={<Radio color="primary" />} label="2" />
+              <FormControlLabel value="3" control={<Radio color="primary" />} label="3" />
+            </RadioGroup>
+          </FormControl>
+        </div>
+        <div>
           <TextField
             label="True answer"
             placeholder="type answer here"
@@ -106,6 +177,7 @@ const QuestionPanel = () => {
         </div>
         <div>
           <TextField
+            disabled={parseInt(numAlternatives) === 0}
             label="Answer alternative 1"
             placeholder="type answer here"
             onChange={(e) => setaltOneInput(e.target.value)}
@@ -113,6 +185,7 @@ const QuestionPanel = () => {
         </div>
         <div>
           <TextField
+            disabled={parseInt(numAlternatives) < 2}
             label="Answer alternative 2"
             placeholder="type answer here"
             onChange={(e) => setaltTwoInput(e.target.value)}
@@ -120,6 +193,7 @@ const QuestionPanel = () => {
         </div>
         <div>
           <TextField
+            disabled={parseInt(numAlternatives) < 3}
             label="Answer alternative 3"
             placeholder="type answer here"
             onChange={(e) => setaltThreeInput(e.target.value)}
