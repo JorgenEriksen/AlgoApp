@@ -3,10 +3,20 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import NewQuestion from './containers/NewQuestion';
 import reportWebVitals from './reportWebVitals';
+// @ts-ignore
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import QuestionList from "./containers/EditQuestionPage"
+import NavBar from './components/NavBar';
 
 ReactDOM.render(
   <React.StrictMode>
-    <NewQuestion />
+    <NavBar />
+    <BrowserRouter>
+      <Switch>
+        <Route exact path='/'><NewQuestion /></Route>
+        <Route path='/edit'><QuestionList /></Route>
+      </Switch>
+    </BrowserRouter>,
   </React.StrictMode>,
   document.getElementById('root')
 );

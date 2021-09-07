@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
+import Paper from "@material-ui/core/Paper";
+import Typography from "@material-ui/core/Typography";
 import Button from '@material-ui/core/Button';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -60,56 +62,74 @@ const QuestionPanel = () => {
 
   // functions
 
+  const clearForm = () => {
+    setTitleInput("")
+    setcodeInput("")
+    setTrueAnswerInput("")
+    setaltOneInput("")
+    setaltTwoInput("")
+    setaltThreeInput("")
+    setTimeInput("")
+    setNumAlternatives("")
+  }
 
-
-  const submitQuestion = () => {
+  const submitQuestion = async () => {
     if (!isFormValid()) {
-      alert("Not valid")
+      alert("Form is not valid")
       return
     }
 
-    /*   const response = await fetch("https://localhost:5001/api/ProgrammingLanguage", {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            formTitle: titleInput,
-            formInput: codeInput,
-            trueAnswer: trueAnswerInput,
-            alternative1: altOneInput,
-            alternative2: altTwoInput,
-            alternative3: altThreeInput,
-            formTimeInput: timeInput,
-          }) */
+    const response = await fetch("https://localhost:5001/api/ProgrammingLanguage",
+      { // API does not handle yet.
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          formTitle: titleInput,
+          formInput: codeInput,
+          trueAnswer: trueAnswerInput,
+          alternative1: altOneInput,
+          alternative2: altTwoInput,
+          alternative3: altThreeInput,
+          formTimeInput: timeInput,
+        })
+      });
 
-
+    clearForm();
     alert("Is valid")
   }
 
   const isFormValid = () => {
     if (titleInput.length < 1) {
+      alert("Not valid1")
       return false
     }
     if (codeInput.length < 1) {
+      alert("Not valid2")
       return false
     }
     if (trueAnswerInput.length < 1) {
+      alert("Not valid3")
       return false
     }
 
     if (parseInt(numAlternatives) > 0 && altOneInput.length < 1) {
+      alert("Not valid4")
       return false
     }
     if (parseInt(numAlternatives) > 1 && altTwoInput.length < 1) {
+      alert("Not valid5")
       return false
     }
     if (parseInt(numAlternatives) > 2 && altThreeInput.length < 1) {
+      alert("Not valid6")
       return false
     }
 
     if (timeInput.toString().slice(-1) !== '0' || parseInt(timeInput) < 0) {
+      alert("Not valid7")
       return false
     }
     return true
@@ -142,6 +162,7 @@ const QuestionPanel = () => {
           <TextField
             label="Question Title"
             placeholder="Enter the question"
+            value={titleInput}
             onChange={(e) => setTitleInput(e.target.value)}
           />
         </div>
@@ -152,6 +173,7 @@ const QuestionPanel = () => {
             onChange={(e) => setcodeInput(e.target.value)}
             minRows={20}
             maxRows={40}
+            value={codeInput}
           />
         </div>
         <div>
@@ -173,6 +195,7 @@ const QuestionPanel = () => {
             label="True answer"
             placeholder="type answer here"
             onChange={(e) => setTrueAnswerInput(e.target.value)}
+            value={trueAnswerInput}
           />
         </div>
         <div>
@@ -181,6 +204,7 @@ const QuestionPanel = () => {
             label="Answer alternative 1"
             placeholder="type answer here"
             onChange={(e) => setaltOneInput(e.target.value)}
+            value={altOneInput}
           />
         </div>
         <div>
@@ -189,6 +213,7 @@ const QuestionPanel = () => {
             label="Answer alternative 2"
             placeholder="type answer here"
             onChange={(e) => setaltTwoInput(e.target.value)}
+            value={altTwoInput}
           />
         </div>
         <div>
@@ -197,6 +222,7 @@ const QuestionPanel = () => {
             label="Answer alternative 3"
             placeholder="type answer here"
             onChange={(e) => setaltThreeInput(e.target.value)}
+            value={altThreeInput}
           />
         </div>
         <div>
@@ -207,6 +233,7 @@ const QuestionPanel = () => {
             // error check here for negative values and values not in a "10" step.
             placeholder="Time in seconds"
             onChange={(e) => setTimeInput(e.target.value)}
+            value={timeInput}
           />
         </div>
         <div>
