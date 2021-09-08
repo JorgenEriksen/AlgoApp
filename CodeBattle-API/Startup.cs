@@ -1,3 +1,4 @@
+using CodeBattle_API.Middleware;
 using CodeBattle_API.Models;
 using CodeBattle_API.Services;
 using Microsoft.AspNetCore.Builder;
@@ -36,6 +37,8 @@ namespace CodeBattle_API
             
             services.AddDbContext<CodeBattleContext>(opt => opt.UseSqlServer(ConnectionString));
 
+            services.AddTransient<AuthMiddleware>();
+
             // CORS
             services.AddCors(options =>
             {
@@ -49,6 +52,8 @@ namespace CodeBattle_API
                     });
             });
             services.AddControllers();
+
+            
 
             services.AddTransient<ProgrammingLanguageService>();
 
@@ -67,6 +72,25 @@ namespace CodeBattle_API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CodeBattle_API v1"));
             }
+
+            // app.UseMiddleware<AuthMiddleware>();
+
+            // add autentication middleware to all endpoints expept /api/User endpoint
+
+            /*
+            app.UseWhen(
+                context => !context.Request.Path.StartsWithSegments("/api/User"),
+                appBuilder =>
+                {
+                    appBuilder.UseMiddleware<AuthMiddleware>();
+                }
+            );
+            */
+
+            app.MapWhen(
+                httpContext => !httpContext.Request.Path.StartsWithSegments("/pathtoexclude"),
+                subApp => subApp.UseAuthorization()
+            );
 
             app.UseHttpsRedirection();
 
