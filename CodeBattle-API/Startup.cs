@@ -76,8 +76,7 @@ namespace CodeBattle_API
             // app.UseMiddleware<AuthMiddleware>();
 
             // add autentication middleware to all endpoints expept /api/User endpoint
-
-            /*
+           
             app.UseWhen(
                 context => !context.Request.Path.StartsWithSegments("/api/User"),
                 appBuilder =>
@@ -85,12 +84,13 @@ namespace CodeBattle_API
                     appBuilder.UseMiddleware<AuthMiddleware>();
                 }
             );
-            */
 
-            app.MapWhen(
-                httpContext => !httpContext.Request.Path.StartsWithSegments("/pathtoexclude"),
-                subApp => subApp.UseAuthorization()
-            );
+            /*
+           app.MapWhen(
+               httpContext => !httpContext.Request.Path.StartsWithSegments("/pathtoexclude"),
+               subApp => subApp.UseAuthorization()
+           );
+            */
 
             app.UseHttpsRedirection();
 

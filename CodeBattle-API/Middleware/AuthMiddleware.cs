@@ -20,7 +20,7 @@ namespace CodeBattle_API.Middleware
             System.Diagnostics.Debug.WriteLine("auth test");
 
             //do the checking
-            if (token == null)
+            if (token == null && false) // remove false later
             {
                 context.Response.StatusCode = 401;
                 await context.Response.WriteAsync("Access denied!");
