@@ -11,17 +11,21 @@ namespace CodeBattle_API.Services
     {
         private CodeBattleContext _context;
 
+        public QuestionService(CodeBattleContext context)
+        {
+            _context = context;
+        }
+
         public void AddQuestion(AddQuestionVM newQuestion)
         {
             var programmingLanguage = _context.ProgrammingLanguage.FirstOrDefault(pl => pl.Id == newQuestion.ProgrammingLanguageId);
-
             // if not found?
             if(programmingLanguage != null)
             {
                 var _newQuestion = new Question()
                 {
                     Title = newQuestion.Title,
-                    ProgrammingLanguageId = programmingLanguage,
+                    ProgrammingLanguage = programmingLanguage,
                     Time = newQuestion.Time,
                     Code = newQuestion.Code,
                     Answer = newQuestion.Answer,
@@ -33,7 +37,12 @@ namespace CodeBattle_API.Services
                 _context.Question.Add(_newQuestion);
                 _context.SaveChanges();
             }
+        }
 
+        public List<Question> GetAllQuestions()
+        {
+            var _allQuestions = _context.Question.ToList();
+            return _allQuestions;
         }
 
     }

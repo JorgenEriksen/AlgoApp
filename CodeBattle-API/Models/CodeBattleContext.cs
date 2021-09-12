@@ -13,6 +13,11 @@ namespace CodeBattle_API.Models
 
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+        }
+
         public DbSet<Question> Question { get; set; }
         public DbSet<ProgrammingLanguage> ProgrammingLanguage { get; set; }
     }

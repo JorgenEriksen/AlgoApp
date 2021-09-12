@@ -56,6 +56,7 @@ namespace CodeBattle_API
             
 
             services.AddTransient<ProgrammingLanguageService>();
+            services.AddTransient<QuestionService>();
 
             services.AddSwaggerGen(c =>
             {
