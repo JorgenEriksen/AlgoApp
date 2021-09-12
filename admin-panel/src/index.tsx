@@ -10,8 +10,9 @@ import NavBar from './components/NavBar';
 
 ReactDOM.render(
   <React.StrictMode>
-    <NavBar />
+    
     <BrowserRouter>
+    <NavBar />
       <Switch>
         <Route exact path='/'><NewQuestion /></Route>
         <Route path='/edit'><QuestionList /></Route>
