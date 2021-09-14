@@ -19,8 +19,9 @@ namespace CodeBattle_API.Services
         public void AddQuestion(AddQuestionVM newQuestion)
         {
             var programmingLanguage = _context.ProgrammingLanguage.FirstOrDefault(pl => pl.Id == newQuestion.ProgrammingLanguageId);
-            // if not found?
-            if(programmingLanguage != null)
+
+            // if found
+            if (programmingLanguage != null)
             {
                 var _newQuestion = new Question()
                 {
@@ -36,13 +37,23 @@ namespace CodeBattle_API.Services
                 };
                 _context.Question.Add(_newQuestion);
                 _context.SaveChanges();
+            } else
+            {
+                System.Diagnostics.Debug.WriteLine("Did not find programming language id: {0}", newQuestion.ProgrammingLanguageId);
             }
+            
         }
 
         public List<Question> GetAllQuestions()
         {
             var _allQuestions = _context.Question.ToList();
             return _allQuestions;
+        }
+
+        public Question GetQuestionById(int id)
+        {
+            var _question = _context.Question.FirstOrDefault(pl => pl.Id == id);
+            return _question;
         }
 
     }

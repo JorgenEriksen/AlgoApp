@@ -23,20 +23,30 @@ namespace CodeBattle_API.Controllers
         [HttpGet("{id}")]
         public IActionResult GetQuestionById(int id)
         {
-            return Ok();
+            var _question = _questionService.GetQuestionById(id);
+            if (_question != null)
+            {
+                return Ok(_question);
+            }
+            return NotFound();
         }
 
         [HttpGet]
         public IActionResult GetAllQuestion()
         {
             var allQuestions = _questionService.GetAllQuestions();
-            return Ok(allQuestions);
+            if(allQuestions != null)
+            {
+                return Ok(allQuestions);
+            }
+            return NotFound();
         }
 
         [HttpPost]
         public IActionResult AddQuestion(AddQuestionVM addQuestionVM)
         {
             _questionService.AddQuestion(addQuestionVM);
+
             return Ok();
         }
     }
