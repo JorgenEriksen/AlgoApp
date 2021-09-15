@@ -22,12 +22,13 @@ const QuestionPanel = () => {
   const [allProgrammingLanguages, setAllProgrammingLanguages] = useState<
     ProgrammingLanguage[]
   >([]);
-  const [programmingLanguageInput, setProgrammingLanguageInput] = useState({});
+  const [programmingLanguageInput, setProgrammingLanguageInput] = useState("1");
   const [errorMessage, setErrorMessage] = useState("");
 
   const [titleInput, setTitleInput] = useState("");
   const [codeInput, setcodeInput] = useState("");
   const [trueAnswerInput, setTrueAnswerInput] = useState("");
+  const [explanationInput, setExplanation] = useState("");
   const [altOneInput, setaltOneInput] = useState("");
   const [altTwoInput, setaltTwoInput] = useState("");
   const [altThreeInput, setaltThreeInput] = useState("");
@@ -38,6 +39,10 @@ const QuestionPanel = () => {
 
   // runs once when component is loaded
   useEffect(() => {
+    
+    
+    
+    
     const getProgrammingLanguages = async () => {
       const url = `${process.env.REACT_APP_APIURL}/ProgrammingLanguage`;
       console.log(url);
@@ -52,12 +57,13 @@ const QuestionPanel = () => {
           "Something went wrong. Please check your internet connection"
         );
       }
-
-      //let response = await fetch('https://localhost:44377/api/Quiz/1')
-      //response = await response.json();
     };
 
     getProgrammingLanguages();
+
+
+    
+
   }, []);
 
   // functions
@@ -67,6 +73,7 @@ const QuestionPanel = () => {
     setcodeInput("")
     setTrueAnswerInput("")
     setaltOneInput("")
+    setExplanation("")
     setaltTwoInput("")
     setaltThreeInput("")
     setTimeInput("")
@@ -79,25 +86,28 @@ const QuestionPanel = () => {
       return
     }
 
-    const response = await fetch("https://localhost:5001/api/ProgrammingLanguage",
-      { // API does not handle yet.
+    const response = await fetch("https://localhost:5001/api/Question",
+      { 
         method: "POST",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          formTitle: titleInput,
-          formInput: codeInput,
-          trueAnswer: trueAnswerInput,
-          alternative1: altOneInput,
-          alternative2: altTwoInput,
-          alternative3: altThreeInput,
-          formTimeInput: timeInput,
+          Title: titleInput,
+          ProgrammingLanguageId: programmingLanguageInput,
+          Time: timeInput,
+          Code: codeInput,
+          Answer: trueAnswerInput,
+          AnswerExplanation: explanationInput,
+          AnswerAlternative1: altOneInput,
+          AnswerAlternative2: altTwoInput,
+          AnswerAlternative3: altThreeInput,
         })
       });
 
     clearForm();
+    console.log(response.ok)
     alert("Is valid")
   }
 
@@ -174,6 +184,16 @@ const QuestionPanel = () => {
             minRows={20}
             maxRows={40}
             value={codeInput}
+          />
+        </div>
+        <div>
+          <TextField
+            placeholder="Answer explanation"
+            multiline
+            onChange={(e) => setExplanation(e.target.value)}
+            minRows={10}
+            maxRows={30}
+            value={explanationInput}
           />
         </div>
         <div>

@@ -6,10 +6,13 @@ export type ProgrammingLanguage = {
 
 export type Question = {
     title: string,
-    code: string,
-    trueAns: string,
-    alt1: string,
-    alt2: string,
-    alt3: string,
+    programmingLanguageId: string,
     time: string,
+    code: string,
+    answer: string,
+    answerExplanation: string,
+    answerAlternative1: string,
+    answerAlternative2: string,
+    answerAlternative3: string,
+    timeStamp?: string,
 }
